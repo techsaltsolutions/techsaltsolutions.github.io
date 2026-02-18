@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Payments Corporation Landing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --primary: #005baa;
+      --primary-dark: #003f73;
+      --accent: #ff7f00;
+      --bg: #f5f6fa;
+      --text: #222;
+      --muted: #666;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e3e5ee;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .top-strip {
+      background: var(--primary-dark);
+      color: #fff;
+      font-size: 12px;
+      padding: 4px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .top-strip a { color: #fff; opacity: 0.9; }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      gap: 24px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+    .logo-symbol {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 14px;
+    }
+    .nav-links a {
+      padding: 4px 0;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.2s ease;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    .nav-cta {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn {
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+    .btn-outline {
+      background: #fff;
+      color: var(--primary-dark);
+      border-color: #ccd1e4;
+    }
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Hero */
+    .hero {
+      background: radial-gradient(circle at top left, #e6f0ff 0, #f5f6fa 50%, #ffffff 100%);
+      padding: 32px 0 40px;
+      border-bottom: 1px solid #e3e5ee;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: center;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0, 91, 170, 0.06);
+      color: var(--primary-dark);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+    .hero h1 {
+      font-size: 32px;
+      margin-bottom: 12px;
+      color: var(--primary-dark);
+    }
+    .hero p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      max-width: 440px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .hero-meta {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .hero-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1);
+      border: 1px solid #e3e5ee;
+    }
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+    .hero-pill {
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(0, 91, 170, 0.07);
+      color: var(--primary-dark);
+      font-size: 11px;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .stat-row strong {
+      font-size: 18px;
+      color: var(--primary-dark);
+    }
+    .sparkline {
+      margin-top: 12px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, rgba(0,91,170,0.08), rgba(255,127,0,0.08));
+      position: relative;
+      overflow: hidden;
+    }
+    .sparkline::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      background-image: linear-gradient(135deg, rgba(0,91,170,0.3) 0, rgba(0,91,170,0.03) 100%);
+      clip-path: polygon(0 80%, 10% 40%, 25% 55%, 40% 20%, 60% 35%, 75% 10%, 100% 0, 100% 100%, 0 100%);
+    }
+
+    /* Highlights */
+    .section {
+      padding: 32px 0;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 20px;
+      color: var(--primary-dark);
+    }
+    .section-sub {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .pill-row span {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid #dde1f0;
+      background: #fff;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid #e3e5ee;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+    }
+    .card-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+    .card-title {
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #f5f6fa;
+      color: var(--muted);
+    }
+
+    /* Products / rails */
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .list-item {
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px 12px;
+      border: 1px solid #e3e5ee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .list-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .list-main {
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    .pill-small {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(0, 91, 170, 0.06);
+      color: var(--primary-dark);
+    }
+
+    /* News */
+    .news-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
+      gap: 24px;
+    }
+    .news-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 13px;
+    }
+    .news-item {
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px 12px;
+      border: 1px solid #e3e5ee;
+    }
+    .news-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Footer */
+    footer {
+      background: #040b1a;
+      color: #c7cee8;
+      padding: 24px 0 16px;
+      margin-top: 24px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+      font-size: 13px;
+    }
+    .footer-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .footer-links a {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+    .footer-bottom {
+      margin-top: 16px;
+      border-top: 1px solid rgba(148, 163, 184, 0.3);
+      padding-top: 8px;
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: #9ca3c9;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-inner,
+      .two-col,
+      .news-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .hero {
+        padding-top: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="top-strip">
+      <span>Central Retail Payments Infrastructure</span>
+      <a href="#">RTGS | NEFT | UPI | RuPay</a>
+    </div>
+    <div class="container">
+      <div class="nav">
+        <div class="logo">
+          <div class="logo-symbol"></div>
+          <div>
+            <div>National Payments Hub</div>
+            <small style="font-size:11px;color:#555;">Enabling digital transactions</small>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="#">About</a>
+          <a href="#">Products</a>
+          <a href="#">For Banks</a>
+          <a href="#">For Consumers</a>
+          <a href="#">Circulars</a>
+          <a href="#">Media</a>
+          <a href="#">Careers</a>
+        </nav>
+        <div class="nav-cta">
+          <button class="btn btn-outline">Contact</button>
+          <button class="btn btn-primary">Portals</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-inner">
+          <div>
+            <div class="hero-tag">
+              <span>UPI Autopay • Instant transfers</span>
+            </div>
+            <h1>Empowering your digital payments with secure, instant rail?systems.</h1>
+            <p>
+              Manage high?volume retail payments with interoperable platforms that connect banks, fintechs, merchants, and consumers across the nation.
+            </p>
+            <div class="hero-actions">
+              <button class="btn btn-primary">Explore UPI</button>
+              <button class="btn btn-outline">View all products</button>
+            </div>
+            <div class="hero-meta">
+              Supporting real?time transfers, recurring mandates, QR?based acceptance, and card?based payments under a unified ecosystem.
+            </div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <span>Digital Payments Snapshot</span>
+              <span class="hero-pill">Illustrative only</span>
+            </div>
+            <div class="stat-row">
+              <span>Monthly UPI transactions</span>
+              <strong>14.2 Bn</strong>
+            </div>
+            <div class="stat-row">
+              <span>Participating banks</span>
+              <strong>450+</strong>
+            </div>
+            <div class="stat-row">
+              <span>Card & RuPay POS terminals</span>
+              <strong>8.1 Mn</strong>
+            </div>
+            <div class="sparkline"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key initiatives -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Key digital payment initiatives</h2>
+            <p class="section-sub">Standardized platforms for instant, card, and Aadhaar?based payments.</p>
+          </div>
+        </div>
+
+        <div class="pill-row">
+          <span>Real?time retail payments</span>
+          <span>Card and QR acceptance</span>
+          <span>Recurring mandates</span>
+          <span>Public transit & toll</span>
+        </div>
+
+        <div class="cards-grid">
+          <div class="card">
+            <span class="card-label">Instant account?to?account</span>
+            <div class="card-title">Unified Payments Interface (UPI)</div>
+            <p>Real?time, interoperable account?to?account transfers using mobile numbers, QR codes, and virtual payment addresses.</p>
+            <span class="badge">Features: QR, mandates, collect, IPO, autopay</span>
+          </div>
+          <div class="card">
+            <span class="card-label">Domestic card scheme</span>
+            <div class="card-title">RuPay</div>
+            <p>Card network for debit, credit, and prepaid cards across ATMs, POS terminals, and e?commerce merchants.</p>
+            <span class="badge">Variants: Contactless, prepaid, corporate</span>
+          </div>
+          <div class="card">
+            <span class="card-label">Aadhaar?enabled</span>
+            <div class="card-title">AEPS & Aadhaar Pay</div>
+            <p>Micro?ATM and merchant?led transactions authenticated using Aadhaar number and biometrics.</p>
+            <span class="badge">Use cases: Cash?in/out, balance enquiry</span>
+          </div>
+          <div class="card">
+            <span class="card-label">Central clearing</span>
+            <div class="card-title">Retail Clearing Platforms</div>
+            <p>Systems for batch?based and near real?time clearing, including NACH and other retail instruments.</p>
+            <span class="badge">Supports: Salary, dividends, utility bills</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products / rails -->
+    <section class="section" style="background:#eef1f8;">
+      <div class="container">
+        <div class="two-col">
+          <div>
+            <div class="section-header">
+              <div>
+                <h2 class="section-title">Payment rails at a glance</h2>
+                <p class="section-sub">Integrate once, reach customers across channels and devices.</p>
+              </div>
+            </div>
+            <ul class="list">
+              <li class="list-item">
+                <div>
+                  <div class="list-label">Retail instant payments</div>
+                  <div class="list-main">UPI, UPI Lite, UPI Autopay</div>
+                </div>
+                <span class="pill-small">Mobile?first</span>
+              </li>
+              <li class="list-item">
+                <div>
+                  <div class="list-label">Cards and acceptance</div>
+                  <div class="list-main">RuPay credit, debit & prepaid</div>
+                </div>
+                <span class="pill-small">Tap & pay</span>
+              </li>
+              <li class="list-item">
+                <div>
+                  <div class="list-label">Recurring & bulk</div>
+                  <div class="list-main">NACH & mandate platforms</div>
+                </div>
+                <span class="pill-small">High volume</span>
+              </li>
+              <li class="list-item">
+                <div>
+                  <div class="list-label">Rural reach</div>
+                  <div class="list-main">AEPS, BHIM Aadhaar Pay</div>
+                </div>
+                <span class="pill-small">BC network</span>
+              </li>
+              <li class="list-item">
+                <div>
+                  <div class="list-label">Transit & toll</div>
+                  <div class="list-main">National common mobility solutions</div>
+                </div>
+                <span class="pill-small">Open loop</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div class="section-header">
+              <div>
+                <h2 class="section-title">For participants</h2>
+                <p class="section-sub">Banks, PSPs, fintechs, and ecosystem partners.</p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">Onboarding & certification</div>
+              <p>Standardized technical onboarding, certification, and compliance checks for participating banks and PSPs.</p>
+            </div>
+            <div class="card">
+              <div class="card-title">Risk & fraud management</div>
+              <p>Centralized monitoring, risk rules, and guidelines to safeguard the ecosystem and end customers.</p>
+            </div>
+            <div class="card">
+              <div class="card-title">Developer resources</div>
+              <p>APIs, specifications, and sandbox environments are typically provided through separate secure portals.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- News and social -->
+    <section class="section">
+      <div class="container">
+        <div class="news-grid">
+          <div>
+            <div class="section-header">
+              <div>
+                <h2 class="section-title">Latest updates</h2>
+                <p class="section-sub">Policy circulars, product features, and ecosystem announcements.</p>
+              </div>
+              <a href="#" class="section-sub">View all</a>
+            </div>
+            <ul class="news-list">
+              <li class="news-item">
+                <strong>Guidelines for recurring UPI mandates</strong>
+                <div class="news-meta">Circular • Effective from 01 Apr 2026</div>
+              </li>
+              <li class="news-item">
+                <strong>Enhancements in RuPay contactless acceptance</strong>
+                <div class="news-meta">Advisory • Card & POS ecosystem</div>
+              </li>
+              <li class="news-item">
+                <strong>Operational circular on settlement timelines</strong>
+                <div class="news-meta">Operations • All member banks</div>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div class="section-header">
+              <div>
+                <h2 class="section-title">Social feed</h2>
+                <p class="section-sub">Snapshots from public notifications and campaigns.</p>
+              </div>
+            </div>
+            <div class="card">
+              <span class="card-label">Illustrative post</span>
+              <p>
+                “Empowering your financial transactions with easy, safe and instant money transfers through mobile?first payment platforms.”
+              </p>
+              <div class="news-meta">#DigitalPayments • #UPI • #RuPay</div>
+            </div>
+            <div class="card">
+              <span class="card-label">Awareness</span>
+              <p>Always verify beneficiary details, never share OTP/PIN, and use authorized channels for dispute resolution.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-title">About</div>
+          <ul class="footer-links">
+            <li><a href="#">Vision & mission</a></li>
+            <li><a href="#">Board & governance</a></li>
+            <li><a href="#">Corporate policies</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">Products</div>
+          <ul class="footer-links">
+            <li><a href="#">UPI & UPI Lite</a></li>
+            <li><a href="#">RuPay cards</a></li>
+            <li><a href="#">AEPS & Aadhaar Pay</a></li>
+            <li><a href="#">NACH & mandates</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">Resources</div>
+          <ul class="footer-links">
+            <li><a href="#">Circulars & advisories</a></li>
+            <li><a href="#">Technical specifications</a></li>
+            <li><a href="#">Faqs</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">Connect</div>
+          <ul class="footer-links">
+            <li><a href="#">Contact us</a></li>
+            <li><a href="#">Grievance redressal</a></li>
+            <li><a href="#">Official handles</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 National Payments Hub (sample UI)</span>
+        <span>All names, numbers, and screenshots on this page are illustrative.</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
